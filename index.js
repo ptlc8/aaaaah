@@ -1,4 +1,5 @@
 const Discord = require("discord.js");
+const Rebus = require("rebus-fr");
 require("dotenv").config();
 
 const reactFrequency = parseFloat(process.env.REACT_FREQUENCY) || 1;
@@ -7,7 +8,8 @@ const client = new Discord.Client({
 	intents: [
 		Discord.GatewayIntentBits.Guilds,
 		Discord.GatewayIntentBits.GuildMessages,
-		Discord.GatewayIntentBits.GuildEmojisAndStickers
+		Discord.GatewayIntentBits.GuildEmojisAndStickers,
+		Discord.GatewayIntentBits.MessageContent
 	]
 });
 
@@ -25,6 +27,10 @@ client.on("messageCreate", async message => {
 		});
 		var emoji = emojis.length ? emojis[Math.floor(emojis.length*Math.random())] : "👻";
 		message.react(emoji);
+	}
+	if (message.content.startsWith("'")) {
+		message.channel.send(Rebus.toRebus(message.content.substring(1)));
+		return;
 	}
 });
 

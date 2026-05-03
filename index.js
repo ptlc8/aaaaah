@@ -28,8 +28,10 @@ client.on("messageCreate", async message => {
 		var emoji = emojis.length ? emojis[Math.floor(emojis.length*Math.random())] : "👻";
 		message.react(emoji);
 	}
-	if (message.content.startsWith("'")) {
-		message.channel.send(Rebus.toRebus(message.content.substring(1)));
+	if (message.content.startsWith("%")) {
+		const text = message.content.substring(1);
+		if (text.length > 0)
+			message.channel.send(Rebus.toRebus(text));
 		return;
 	}
 });
